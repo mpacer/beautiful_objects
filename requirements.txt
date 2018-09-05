@@ -1,0 +1,6 @@
+IPython
+matplotlib
+pillow
+nbconvert
+allofplos
+vdom
