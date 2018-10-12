@@ -36,3 +36,29 @@ class Clip:
         return svg(*to_display,
                    *outline,
                    viewBox="-25 -25 50 50")
+
+
+class ParametricSVG:
+    def __init__(self, t, expr_x, expr_y):
+        self.t = t
+        self.u = symbols('u')
+        assert t in expr_x.atoms()
+        assert t in expr_y.atoms()
+        self.expr_x = expr_x
+        self.expr_y = expr_y
+        line_1 = self.line(self.t)
+        line_2 = self.line(self.u)
+
+    def point(self, var):
+        x = self.expr_x.subs(var)
+        y = self.expr_y.subs(var)
+        return Point()
+
+        
+        
+    def line(self, var):
+        x = self.expr_x.subs(var)
+        y = self.expr_y.subs(var)
+        return (x, y)
+
+        
