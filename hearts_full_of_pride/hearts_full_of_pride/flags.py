@@ -28,5 +28,38 @@ lesbian['symbol'] = group(path(d="M500 550L211.325 50h577.35z", fill="black"),
 
 
 
+class Flag:
+    
+    def __init__(self, name, colors, symbol=None):
+        self.name = name
+        self.colors = colors
+        self.symbol = symbol
+        self.num = len(colors)
+        
+    def flag(self, height_perc=73, shift=5, **kwargs):
+        height_perc = height_perc
+        shift = shift
+        div_heights = np.linspace(-height_perc/2+shift,
+                                  height_perc/2+shift, 
+                                  self.num, 
+                                  endpoint=False)
+        internal = [rect(x="-25", y=f"{this_h}%", 
+                         width="50", height=f"{height_perc/self.num}%", 
+                         fill=self.colors[i],
+                         stroke=self.colors[i]
+                        ) 
+                    for i, this_h in enumerate(div_heights)]
+        if self.symbol:
+            internal.append(self.symbol)
+        return group(*internal, 
+                     **kwargs)
+    
+    def _repr_mimebundle_(self, include=None, exclude=None):
+        viewer = svg(self.flag(), viewBox="-25 -25 50 50")
+        return {**viewer._repr_mimebundle_(None, None),
+                "text/html": viewer._repr_html_()
+               }
+               
+flag_defs = [trans, lesbian, genderqueer, agender, ace, bi, rainbow, enby, genderfluid, pansexual, polysexual, aromantic, lipstick, bear, intersex, polyamory]
 
-# flag_defs = [trans, lesbian, genderqueer, rainbow, agender, ace, bi, enby, genderfluid, pan, polysexual, aromantic, lipstick, bear, intersex, polyamory]
+flag_array = [Flag(flag_def) for flag_def in flag_defs]
